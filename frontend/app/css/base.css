@@ -1,0 +1,85 @@
+/* base */
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    color: #fff;
+    height: 100%;
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+body > .table {
+    height: 100%;
+    width: 100%;
+}
+
+a {
+    color: unset;
+    text-decoration: unset;
+}
+
+/* content */
+
+.content {
+    padding: 2em;
+}
+
+/* table */
+
+.table {
+    display: table;
+}
+
+.row {
+    display: table-row;
+}
+
+.cell {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+/* header */
+
+.header {
+    border-bottom: solid 1px #fff;
+    font-size: 1.2em;
+    margin-bottom: 1em;
+}
+
+/* button */
+
+.btn {
+    border-radius: 4px;
+    color: #ffffff;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 1em;
+    outline: none;
+    padding: 0.5em 0.5em;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.btn-success {
+    background-color: #5cb85c;
+}
+
+/* inputs */
+
+input[type="text"], select, input[type="file"] {
+    border-radius: 4px;
+    box-shadow: none;
+    display: block;
+    padding: 0.5em 0.5em;
+}
+
+input[type="text"]:focus {
+    outline: none;
+}

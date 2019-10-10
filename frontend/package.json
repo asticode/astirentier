@@ -1,0 +1,14 @@
+{
+  "name": "astirentier",
+  "version": "0.1.0",
+  "description": "Want to become a rentier?",
+  "main": "main.js",
+  "author": "Quentin Renard (https://github.com/asticode)",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^6.0.12"
+  }
+}
