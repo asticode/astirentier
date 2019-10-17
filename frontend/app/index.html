@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="lib/fontawesome-free-5.1.0-web/css/all.css">
+    <link rel="stylesheet" href="lib/astiloader/astiloader.css">
+    <link rel="stylesheet" href="lib/astinotifier/astinotifier.css">
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/index.css">
 </head>
@@ -16,13 +18,13 @@
                     <div class="title">New</div>
                 </div>
             </div>
-            <div class="item table">
+            <div class="item table" id="open">
                 <div class="cell">
                     <i class="fa fa-folder-open"></i>
                     <div class="title">Open</div>
                 </div>
             </div>
-            <div class="item table">
+            <div class="item table" id="open-last">
                 <div class="cell">
                     <i class="fa fa-redo"></i>
                     <div class="title">Open last</div>
@@ -37,6 +39,8 @@
         </div>
     </div>
 </div>
+<script src="lib/astiloader/astiloader.js"></script>
+<script src="lib/astinotifier/astinotifier.js"></script>
 <script src="js/index.js"></script>
 <script> index.init() </script>
 </body>

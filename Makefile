@@ -1,3 +1,3 @@
-f:
+r:
 	go build -o ./frontend/backend ./backend/...
 	npm start --prefix frontend

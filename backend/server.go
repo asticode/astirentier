@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"net/http"
 
 	"github.com/asticode/go-astilog"
@@ -14,7 +15,7 @@ func (w *worker) serve() {
 
 	// Add routes
 	r.GET("/ok", w.ok)
-	r.POST("/session", w.createSession)
+	r.POST("/db/open", w.openDB)
 
 	// Serve
 	w.w.Serve("127.0.0.1:6969", r)
@@ -22,16 +23,21 @@ func (w *worker) serve() {
 
 func (w *worker) ok(http.ResponseWriter, *http.Request, httprouter.Params) {}
 
-func (w *worker) createSession(http.ResponseWriter, *http.Request, httprouter.Params) {
-	// TODO Checks
+type ErrorPayload struct {
+	Message string `json:"message"`
+}
 
-	// Close previous session
-	if w.s != nil {
-		if err := w.s.close(); err != nil {
-			astilog.Error(errors.Wrap(err, "main: closing session failed"))
-		}
+func writeHTTPError(rw http.ResponseWriter, code int, err error) {
+	rw.WriteHeader(code)
+	astilog.Error(err)
+	if err := json.NewEncoder(rw).Encode(ErrorPayload{Message: err.Error()}); err != nil {
+		astilog.Error(errors.Wrap(err, "main: marshaling failed"))
 	}
+}
 
-	// Create new session
-	w.s = newSession()
+func writeHTTPData(rw http.ResponseWriter, data interface{}) {
+	if err := json.NewEncoder(rw).Encode(data); err != nil {
+		writeHTTPError(rw, http.StatusInternalServerError, errors.Wrap(err, "main: json encoding failed"))
+		return
+	}
 }

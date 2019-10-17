@@ -1,10 +1,13 @@
 package main
 
-import astiworker "github.com/asticode/go-astitools/worker"
+import (
+	astiworker "github.com/asticode/go-astitools/worker"
+	"go.etcd.io/bbolt"
+)
 
 type worker struct {
-	s *session
-	w *astiworker.Worker
+	db *bbolt.DB
+	w  *astiworker.Worker
 }
 
 func newWorker() *worker {
