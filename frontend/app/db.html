@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="lib/fontawesome-free-5.1.0-web/css/all.css">
+    <link rel="stylesheet" href="lib/astinotifier/astinotifier.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/db.css">
+</head>
+<body>
+<div class="table">
+    <div class="cell">
+        <div class="grid">
+            <div class="item table" id="new">
+                <div class="cell">
+                    <i class="fa fa-plus"></i>
+                    <div class="title">New</div>
+                </div>
+            </div>
+            <div class="item table" id="open">
+                <div class="cell">
+                    <i class="fa fa-folder-open"></i>
+                    <div class="title">Open</div>
+                </div>
+            </div>
+            <div class="item table" id="open-last">
+                <div class="cell">
+                    <i class="fa fa-redo"></i>
+                    <div class="title">Open last</div>
+                </div>
+            </div>
+            <div class="item table" id="close">
+                <div class="cell">
+                    <i class="fa fa-times"></i>
+                    <div class="title">Close</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="lib/astinotifier/astinotifier.js"></script>
+<script src="js/db.js"></script>
+<script> db.init() </script>
+</body>
+</html>

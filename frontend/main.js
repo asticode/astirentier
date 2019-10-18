@@ -1,11 +1,7 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
 const { logger } = require('./logger.js')
 const { spawn } = require('./spawn.js')
 const { client } = require('./client.js')
-
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
-let win
 
 // Make sure to clean up before quitting
 app.on('before-quit', function() {
@@ -17,11 +13,40 @@ app.on('before-quit', function() {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', function () {
+    // Windows
+    let dbWindow, mainWindow
+
     // Start backend
     spawn.start()
 
-    // Create the browser window.
-    win = new BrowserWindow({
+    // Listen to renderers
+    ipcMain.on('db.opened', () => {
+        // Create the main window.
+        mainWindow = new BrowserWindow({
+            height: 600,
+            webPreferences: {
+                nodeIntegration: true
+            },
+            width: 600,
+        })
+
+        // Load
+        mainWindow.loadFile('app/index.html')
+
+        // Emitted when the window is closed.
+        mainWindow.on('closed', () => {
+            // Dereference the window object, usually you would store windows
+            // in an array if your app supports multi windows, this is the time
+            // when you should delete the corresponding element.
+            mainWindow = null
+        })
+
+        // Close db window
+        dbWindow.close()
+    })
+
+    // Create the db window.
+    dbWindow = new BrowserWindow({
         frame: false,
         height: 350,
         resizable: false,
@@ -31,15 +56,15 @@ app.on('ready', function () {
         width: 350,
     })
 
-    // and load the index.html of the app.
-    win.loadFile('app/index.html')
+    // Load
+    dbWindow.loadFile('app/db.html')
 
     // Emitted when the window is closed.
-    win.on('closed', () => {
+    dbWindow.on('closed', () => {
         // Dereference the window object, usually you would store windows
         // in an array if your app supports multi windows, this is the time
         // when you should delete the corresponding element.
-        win = null
+        dbWindow = null
     })
 })
 

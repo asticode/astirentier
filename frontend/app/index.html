@@ -3,8 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="lib/fontawesome-free-5.1.0-web/css/all.css">
-    <link rel="stylesheet" href="lib/astiloader/astiloader.css">
-    <link rel="stylesheet" href="lib/astinotifier/astinotifier.css">
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/index.css">
 </head>
@@ -12,36 +10,32 @@
 <div class="table">
     <div class="cell">
         <div class="grid">
-            <div class="item table" id="new">
-                <div class="cell">
-                    <i class="fa fa-plus"></i>
-                    <div class="title">New</div>
+            <a href="transactions.html">
+                <div class="item table">
+                    <div class="cell">
+                        <i class="fa fa-clipboard-list"></i>
+                        <div class="title">Transactions</div>
+                    </div>
                 </div>
-            </div>
-            <div class="item table" id="open">
-                <div class="cell">
-                    <i class="fa fa-folder-open"></i>
-                    <div class="title">Open</div>
+            </a>
+            <a href="visualization.html">
+                <div class="item table">
+                    <div class="cell">
+                        <i class="fa fa-chart-line"></i>
+                        <div class="title">Visualization</div>
+                    </div>
                 </div>
-            </div>
-            <div class="item table" id="open-last">
-                <div class="cell">
-                    <i class="fa fa-redo"></i>
-                    <div class="title">Open last</div>
+            </a>
+            <a href="bank_accounts.html">
+                <div class="item table">
+                    <div class="cell">
+                        <i class="fa fa-university"></i>
+                        <div class="title">Bank Accounts</div>
+                    </div>
                 </div>
-            </div>
-            <div class="item table" id="close">
-                <div class="cell">
-                    <i class="fa fa-times"></i>
-                    <div class="title">Close</div>
-                </div>
-            </div>
+            </a>
         </div>
     </div>
 </div>
-<script src="lib/astiloader/astiloader.js"></script>
-<script src="lib/astinotifier/astinotifier.js"></script>
-<script src="js/index.js"></script>
-<script> index.init() </script>
 </body>
 </html>

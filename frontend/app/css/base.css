@@ -1,13 +1,24 @@
 /* base */
 
+@font-face {
+    font-family: "light";
+    src: url("../fonts/OpenSans-Light.ttf");
+}
+
+@font-face {
+    font-family: "italic";
+    src: url("../fonts/OpenSans-LightItalic.ttf");
+}
+
 * {
     box-sizing: border-box;
 }
 
 html, body {
     color: #fff;
+    font-family: "light";
     height: 100%;
-    font-size: 16px;
+    font-size: 13px;
     margin: 0;
     padding: 0;
     width: 100%;

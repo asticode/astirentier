@@ -23,7 +23,7 @@ func (w *worker) openDB(rw http.ResponseWriter, r *http.Request, _ httprouter.Pa
 	}
 
 	// Open
-	if w.db, err = bbolt.Open(p.Path, 0666, nil); err != nil {
+	if w.db, err = bbolt.Open(p.Path, 0755, nil); err != nil {
 		writeHTTPError(rw, http.StatusInternalServerError, errors.Wrapf(err, "main: opening db at %s failed", p.Path))
 		return
 	}

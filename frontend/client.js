@@ -14,12 +14,6 @@ let newPromise = function(options) {
             method: options.method,
             headers: options.headers
         }, function(resp) {
-            // Check status code
-            if (resp.statusCode < 200 || resp.statusCode > 299) {
-                reject("client.js: sending " + n + " failed with the invalid status code " + resp.statusCode)
-                return
-            }
-
             // Get data
             let data = ''
             resp.on('data', (chunk) => {
@@ -28,6 +22,16 @@ let newPromise = function(options) {
 
             // Handle success
             resp.on('end', () => {
+                // Parse JSON
+                if (resp.headers["content-type"] === "application/json") {
+                    data = JSON.parse(data)
+                }
+
+                // Check status code
+                if (resp.statusCode < 200 || resp.statusCode > 299) {
+                    reject("client.js: sending " + n + " failed with the invalid status code " + resp.statusCode + (typeof data.message !== "undefined" ? " and message " + data.message : ""))
+                    return
+                }
                 resolve(data)
             })
         })

@@ -1,23 +1,22 @@
-const { remote } = require('electron')
+const { ipcRenderer, remote } = require('electron')
 const os = require('os')
 
-let index = {
+let db = {
     init: function() {
         // Init libs
-        asticode.loader.init()
         asticode.notifier.init()
 
         // Handle new
-        index.handleNew()
+        db.handleNew()
 
         // Handle open
-        index.handleOpen()
+        db.handleOpen()
 
         // Handle open last
-        index.handleOpenLast()
+        db.handleOpenLast()
 
         // Close
-        index.handleClose()
+        db.handleClose()
     },
     handleNew: function() {
         // Handle click
@@ -31,7 +30,7 @@ let index = {
             if (typeof p === "undefined") return
 
             // Open
-            index.open(p)
+            db.open(p)
         })
     },
     handleOpen: function() {
@@ -46,7 +45,7 @@ let index = {
             if (typeof ps === "undefined" || ps.length === 0) return
 
             // Open
-            index.open(ps[0])
+            db.open(ps[0])
         })
     },
     handleOpenLast: function() {
@@ -63,7 +62,7 @@ let index = {
         // Handle click
         e.addEventListener("click", function() {
             // Open
-            index.open(localStorage.getItem('db_path'))
+            db.open(localStorage.getItem('db_path'))
         })
     },
     handleClose: function() {
@@ -84,5 +83,8 @@ let index = {
 
         // Store db path
         localStorage.setItem('db_path', path)
+
+        // Notify the main process
+        ipcRenderer.send('db.opened')
     }
 }
