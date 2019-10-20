@@ -1,7 +1,8 @@
 const { app, BrowserWindow, ipcMain } = require('electron')
-const { logger } = require('./logger.js')
-const { spawn } = require('./spawn.js')
-const { client } = require('./client.js')
+const logger = require('./logger.js')
+const client = require('./client.js').init(logger)
+const oauth2 = require('./oauth2.js').init(logger)
+const spawn = require('./spawn.js').init(logger)
 
 // Make sure to clean up before quitting
 app.on('before-quit', function() {
@@ -19,7 +20,7 @@ app.on('ready', function () {
     // Start backend
     spawn.start()
 
-    // Listen to renderers
+    // Listen to opened db
     ipcMain.on('db.opened', () => {
         // Create the main window.
         mainWindow = new BrowserWindow({
@@ -35,9 +36,6 @@ app.on('ready', function () {
 
         // Emitted when the window is closed.
         mainWindow.on('closed', () => {
-            // Dereference the window object, usually you would store windows
-            // in an array if your app supports multi windows, this is the time
-            // when you should delete the corresponding element.
             mainWindow = null
         })
 
@@ -69,5 +67,8 @@ app.on('ready', function () {
 })
 
 // Share some variables with renderers
-global.client = client
-global.logger = logger
+global.all = {
+    client: client,
+    logger: logger,
+    oauth2: oauth2,
+}

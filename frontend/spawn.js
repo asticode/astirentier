@@ -2,6 +2,11 @@ const { spawn } = require('child_process')
 
 class Spawn {
 
+    init(logger) {
+        this.l = logger
+        return this
+    }
+
     start() {
         this.s = spawn('./backend', ['-v'])
         this.s.stdout.on('data', (data) => {
@@ -12,25 +17,25 @@ class Spawn {
                     const msg = j.msg + " source=" + j.source
                     switch (j.level) {
                         case "debug":
-                            logger.debug(msg)
+                            this.l.debug(msg)
                             break
                         case "error":
-                            logger.error(msg)
+                            this.l.error(msg)
                             break
                         case "warn":
-                            logger.warn(msg)
+                            this.l.warn(msg)
                             break
                         default:
-                            logger.info(msg)
+                            this.l.info(msg)
                             break
                     }
                 } catch(e) {
-                    logger.error('JSON parsing spawn stdout "' + s + '" failed')
+                    this.l.error('JSON parsing spawn stdout "' + s + '" failed')
                 }
-            })
+            }.bind(this))
         })
         this.s.on('close', (code) => {
-            logger.info(`spawn exited with code ${code}`)
+            this.l.info(`spawn exited with code ${code}`)
         })
     }
 
@@ -40,6 +45,4 @@ class Spawn {
 
 }
 
-module.exports = {
-    spawn: new Spawn(),
-}
+module.exports = new Spawn()

@@ -1,6 +1,6 @@
 const http = require('http')
 
-let newPromise = function(options) {
+let newPromise = function(logger, options) {
     return new Promise((resolve, reject) => {
         // Log
         const n = options.method + " request to " + options.path
@@ -49,29 +49,45 @@ let newPromise = function(options) {
     })
 }
 
-let send = async function(options) {
-    // Create result
-    let r = {err: null}
-
-    // Send
-    try {
-        // Create promise
-        const p = newPromise(options)
-
-        // Send
-        r.data = await p
-    }
-    catch(err) {
-        r.err = err
-    }
-    return r
-}
-
 class Client {
 
+    init(logger) {
+        this.l = logger
+        return this
+    }
+
+    async send(options) {
+        // Create result
+        let r = {err: null}
+
+        // Send
+        try {
+            // Create promise
+            const p = newPromise(this.l, options)
+
+            // Send
+            r.data = await p
+        }
+        catch(err) {
+            r.err = err
+        }
+        return r
+    }
+
+    async createBankAccount(label, bank) {
+        return await this.send({
+            path: "/bank-accounts",
+            method: "POST",
+            body: JSON.stringify({
+                bank: bank,
+                label: label,
+            }),
+        })
+    }
+
     async openDB(path) {
-        return await send({
-            path: "/db/open",
+        return await this.send({
+            path: "/dbs",
             method: "POST",
             body: JSON.stringify({path: path}),
         })
@@ -79,6 +95,4 @@ class Client {
 
 }
 
-module.exports = {
-    client: new Client(),
-}
+module.exports = new Client()

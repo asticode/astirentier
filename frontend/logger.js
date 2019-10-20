@@ -26,6 +26,4 @@ class Logger {
 
 }
 
-module.exports = {
-    logger: new Logger(),
-}
+module.exports = new Logger()

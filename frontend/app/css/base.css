@@ -15,17 +15,12 @@
 }
 
 html, body {
-    color: #fff;
+    color: #555;
     font-family: "light";
     height: 100%;
     font-size: 13px;
     margin: 0;
     padding: 0;
-    width: 100%;
-}
-
-body > .table {
-    height: 100%;
     width: 100%;
 }
 
@@ -46,21 +41,14 @@ a {
     display: table;
 }
 
-.row {
-    display: table-row;
-}
-
 .cell {
     display: table-cell;
     vertical-align: middle;
 }
 
-/* header */
-
-.header {
-    border-bottom: solid 1px #fff;
-    font-size: 1.2em;
-    margin-bottom: 1em;
+body > .table {
+    height: 100%;
+    width: 100%;
 }
 
 /* button */
@@ -72,7 +60,7 @@ a {
     display: inline-block;
     font-size: 1em;
     outline: none;
-    padding: 0.5em 0.5em;
+    padding: 0.5em 1em;
     text-align: center;
     vertical-align: middle;
     white-space: nowrap;
@@ -82,15 +70,29 @@ a {
     background-color: #5cb85c;
 }
 
-/* inputs */
+/* grid */
 
-input[type="text"], select, input[type="file"] {
-    border-radius: 4px;
-    box-shadow: none;
-    display: block;
-    padding: 0.5em 0.5em;
+.grid {
+    display: grid;
+    grid-auto-rows: 1fr;
+    grid-column-gap: 1em;
+    grid-row-gap: 1em;
+    height: 100%;
+    padding: 1em;
+    width: 100%;
 }
 
-input[type="text"]:focus {
-    outline: none;
+.item {
+    background-color: #f1f1f1;
+    border-radius: 0.5em;
+    cursor: pointer;
+    height: 100%;
+    padding: 1em;
+    text-align: center;
+    width: 100%;
+}
+
+.item i {
+    font-size: 3em;
+    margin-bottom: 0.3em;
 }

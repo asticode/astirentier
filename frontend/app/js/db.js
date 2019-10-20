@@ -1,5 +1,6 @@
 const { ipcRenderer, remote } = require('electron')
 const os = require('os')
+const { client, logger } = remote.getGlobal("all")
 
 let db = {
     init: function() {
@@ -71,12 +72,9 @@ let db = {
     },
     open: async function(path) {
         // Open
-        const {err} = await remote.getGlobal("client").openDB(path)
+        const {err} = await client.openDB(path)
         if (err !== null) {
-            // Log
-            remote.getGlobal('logger').error('index.js: opening db failed: ' + err)
-
-            // Notify
+            logger.error('index.js: opening db failed: ' + err)
             asticode.notifier.error(err)
             return
         }
