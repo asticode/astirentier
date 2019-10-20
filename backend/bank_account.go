@@ -64,8 +64,15 @@ func (w *worker) serveCreateBankAccount(rw http.ResponseWriter, r *http.Request,
 func (w *worker) createBankAccount(a BankAccountPayload) (err error) {
 	// Create
 	if err = w.db.Update(func(tx *bbolt.Tx) (err error) {
-		// Retrieve bucket
-		b := tx.Bucket(bankAccountsBucketName)
+		// Retrieve accounts bucket
+		root := tx.Bucket(bankAccountsBucketName)
+
+		// Create account bucket
+		var b *bbolt.Bucket
+		if b, err = root.CreateBucketIfNotExists([]byte(a.Label)); err != nil {
+			err = errors.Wrap(err, "main: creating account bucket failed")
+			return
+		}
 
 		// Marshal
 		var buf []byte
@@ -74,9 +81,9 @@ func (w *worker) createBankAccount(a BankAccountPayload) (err error) {
 			return
 		}
 
-		// Put
-		if err = b.Put([]byte(a.Label), buf); err != nil {
-			err = errors.Wrap(err, "main: putting failed")
+		// Put metadata
+		if err = b.Put(metadataDBKey, buf); err != nil {
+			err = errors.Wrap(err, "main: putting metadata failed")
 			return
 		}
 		return
@@ -90,17 +97,20 @@ func (w *worker) createBankAccount(a BankAccountPayload) (err error) {
 func (w *worker) retrieveBankAccount(label string) (a BankAccountPayload, err error) {
 	// View
 	if err = w.db.View(func(tx *bbolt.Tx) (err error) {
-		// Retrieve bucket
-		b := tx.Bucket(bankAccountsBucketName)
+		// Retrieve accounts bucket
+		root := tx.Bucket(bankAccountsBucketName)
 
-		// Get payload
-		p := b.Get([]byte(label))
+		// Retrieve account bucket
+		b := root.Bucket([]byte(label))
 
-		// Empty payload
-		if len(p) == 0 {
+		// Bucket doesn't exist
+		if b == nil {
 			err = errNotFoundInDB
 			return
 		}
+
+		// Get payload
+		p := b.Get(metadataDBKey)
 
 		// Unmarshal
 		if err = json.Unmarshal(p, &a); err != nil {

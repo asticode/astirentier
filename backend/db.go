@@ -20,6 +20,11 @@ var (
 	errNotFoundInDB = errors.New("main: not found in db")
 )
 
+// DB keys
+var (
+	metadataDBKey = []byte("metadata")
+)
+
 type CreateDBPayload struct {
 	Path string `json:"path"`
 }
